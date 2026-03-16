@@ -1,4 +1,5 @@
 The Fallout 4 Mantella launcher DLL only works with the Mantella.exe file. If you launch Mantella from source,
 you will want the F4MantellaLauncher.DLL disabled first. In the event that the author compiles Mantella 0.14 to 
 an EXE with the new changes, this will become useful. That's why I'm including it. All were designed from scratch
-to work with Fallout 4: Anniversary Edtion v1.11.191
+to work with Fallout 4: Anniversary Edtion v1.11.191 Does not include the CROSSHAIR targeting hotkey functionality YET("G"), but I am working on it.
+For now you'll have to rely on "R" when standing near a player to talk to them.
