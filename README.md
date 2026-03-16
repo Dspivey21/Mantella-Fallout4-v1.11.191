@@ -94,9 +94,20 @@ In your Fallout 4 `Data` folder:
 - `F4SE\Plugins\F4MantellaLauncher.dll.bak` — The auto-launcher DLL, pre-renamed to `.bak` so it won't interfere with running from source
 - `Scripts\Source\User\OLD SRC SCRPTS\` — Backup of the original unmodified Papyrus scripts in case you need to revert
 
-### Step 5: Set Up Piper TTS
+### Step 5: Set Up LLM, TTS, and STT
 
-Mantella needs Piper and its voice models. If you haven't already set these up, follow the Mantella documentation for Piper TTS setup. The Piper directory should end up at `Data\F4SE\Plugins\MantellaSoftware\piper\` in your Fallout 4 game folder.
+Follow the official Mantella installation guide for Fallout 4 to set up your LLM, TTS, and STT services:
+
+https://art-from-the-machine.github.io/Mantella/pages/installation_fallout4.html
+
+That guide covers:
+- **LLM setup** — hosted (OpenAI, OpenRouter) or local (KoboldCpp, text-generation-webui)
+- **TTS setup** — Piper (recommended, included with the mod), xVASynth, or XTTS
+- **STT setup** — Moonshine or Whisper for voice input
+
+The guide is written for the compiled Mantella.exe, so ignore the parts about launching via `Mantella.exe` — you'll be running from source with `python main.py` instead. Everything else (LLM config, TTS models, STT setup, in-game holotape settings) applies the same way.
+
+The Piper directory with voice models should end up at `Data\F4SE\Plugins\MantellaSoftware\piper\` in your Fallout 4 game folder. Piper is included with the Mantella mod download from Step 3.
 
 ### Step 6: Run
 
