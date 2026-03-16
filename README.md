@@ -16,7 +16,7 @@ Mantella v0.13 was built for Fallout 4 pre-AE (v1.10.163). The Anniversary Editi
 ### Requirements
 
 - **Windows 10/11**
-- **Python 3.11+** — required (Mantella uses `StrEnum` which was added in 3.11; Python 3.10 will NOT work)
+- **Python 3.11.9** — required (Mantella uses `StrEnum` which was added in 3.11; Python 3.10 will NOT work)
   - Download: https://www.python.org/downloads/release/python-3119/ (Windows installer 64-bit)
 - **Fallout 4 Anniversary Edition** (v1.11.191)
 - **F4SE** installed for AE — https://f4se.silverlock.org/
@@ -52,7 +52,20 @@ pip install --no-build-isolation -r requirements.txt
 
 > **Why two steps?** Setuptools v71+ removed the `pkg_resources` module that Moonshine's setup.py depends on. It must be pinned to v70.3.0 *before* installing the rest of the requirements. The requirements file pins all other versions including `onnxruntime==1.19.2` (v1.24.3 fails with `DLL load failed` on Python 3.11).
 
-### Step 3: Apply the AE Changes
+### Step 3: Install the Mantella Mod for Fallout 4
+
+Download the Mantella mod from Nexus Mods: https://www.nexusmods.com/fallout4/mods/79747
+
+Install it into your Fallout 4 game directory following the mod's instructions. This adds the Papyrus scripts, Piper TTS, voice models, and the original F4SE plugins to your game.
+
+**Important:** After installing, delete the following original DLLs from `Data\F4SE\Plugins\` — they were built for pre-AE and will crash on Anniversary Edition:
+- `F4SE_HTTP.dll`
+- `TopicInfoPatcher.dll`
+- `F4MantellaLauncher.dll`
+
+The AE-compatible replacements are included in this repository and will be copied in the next step.
+
+### Step 4: Apply the AE Changes
 
 This repository contains three folders. Each one goes to a different place:
 
@@ -81,11 +94,22 @@ In your Fallout 4 `Data` folder:
 - `F4SE\Plugins\F4MantellaLauncher.dll.bak` — The auto-launcher DLL, pre-renamed to `.bak` so it won't interfere with running from source
 - `Scripts\Source\User\OLD SRC SCRPTS\` — Backup of the original unmodified Papyrus scripts in case you need to revert
 
-### Step 4: Set Up Piper TTS
+### Step 5: Set Up LLM, TTS, and STT
 
-Mantella needs Piper and its voice models. If you haven't already set these up, follow the Mantella documentation for Piper TTS setup. The Piper directory should end up at `Data\F4SE\Plugins\MantellaSoftware\piper\` in your Fallout 4 game folder.
+Follow the official Mantella installation guide for Fallout 4 to set up your LLM, TTS, and STT services:
 
-### Step 5: Run
+https://art-from-the-machine.github.io/Mantella/pages/installation_fallout4.html
+
+That guide covers:
+- **LLM setup** — hosted (OpenAI, OpenRouter) or local (KoboldCpp, text-generation-webui)
+- **TTS setup** — Piper (recommended, included with the mod), xVASynth, or XTTS
+- **STT setup** — Moonshine or Whisper for voice input
+
+The guide is written for the compiled Mantella.exe, so ignore the parts about launching via `Mantella.exe` — you'll be running from source with `python main.py` instead. Everything else (LLM config, TTS models, STT setup, in-game holotape settings) applies the same way.
+
+The Piper directory with voice models should end up at `Data\F4SE\Plugins\MantellaSoftware\piper\` in your Fallout 4 game folder. Piper is included with the Mantella mod download from Step 3.
+
+### Step 6: Run
 
 1. Activate the venv: `.\MantellaEnv\Scripts\Activate.ps1`
 2. Start Mantella: `python main.py`
@@ -266,4 +290,3 @@ Auto-launches Mantella.exe when Fallout 4 starts. Included as `.dll.bak` (disabl
 - **Non-VR (default):** The script registers for key `0x97`. When the DLL receives an HTTP response from Python, it injects a keypress (scancode 0x97) to wake the Papyrus VM. The `OnKeyDown` event retrieves the response data.
 - **VR mode:** Uses timer-based polling since VR can't reliably receive injected keypresses.
 - The original used `SendPapyrusEvent` callbacks which broke on AE — the polling + keypress injection model is the replacement.
-
