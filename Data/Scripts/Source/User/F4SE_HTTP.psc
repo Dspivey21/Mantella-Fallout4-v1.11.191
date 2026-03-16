@@ -1,0 +1,67 @@
+scriptName F4SE_HTTP native hidden
+
+function sendLocalhostHttpRequest(int typedDictionaryHandle, int port, string route, int timeout = 0) global native
+
+event OnHttpReplyReceived(int typedDictionaryHandle) native
+event OnHttpErrorReceived(int typedDictionaryHandle) native
+
+; Dictionary
+
+Int function createDictionary() global native
+function clearAllDictionaries() global native
+
+;/  Returns the value associated with the @key. If not, returns @default value
+/;
+String function getString(Int object, String key, String default="") global native
+Int function getInt(Int object, String key, Int default=0) global native
+Float function getFloat(Int object, String key, Float default=0.0) global native
+Bool function getBool(Int object, String key, Bool default=false) global native
+Int function getNestedDictionary(Int object, String key, Int default=0) global native
+Int[] function getIntArray(Int object, String key) global native
+Float[] function getFloatArray(Int object, String key) global native
+Bool[] function getBoolArray(Int object, String key) global native
+Int[] function getNestedDictionariesArray(Int object, String key) global native
+
+; Element-wise string array getters (AE-safe — avoids broken array type lookup)
+Int function getStringArraySize(Int object, String key) global native
+String function getStringArrayElement(Int object, String key, Int index) global native
+
+; Papyrus wrapper — builds the array from element-wise natives
+String[] function getStringArray(Int object, String sKey) global
+    Int count = getStringArraySize(object, sKey)
+    if count <= 0
+        return None
+    endif
+    String[] result = new String[count]
+    Int i = 0
+    while i < count
+        result[i] = getStringArrayElement(object, sKey, i)
+        i += 1
+    endwhile
+    return result
+endfunction
+
+;/  Inserts @key: @value pair. Replaces existing pair with the same @key
+/;
+bool function setString(Int object, String key, String value) global native
+function setInt(Int object, String key, Int value) global native
+function setFloat(Int object, String key, Float value) global native
+function setBool(Int object, String key, Bool value) global native
+function setNestedDictionary(Int object, String key, Int value) global native
+function setIntArray(Int object, String key, Int[] value) global native
+function setFloatArray(Int object, String key, Float[] value) global native
+bool function setStringArray(Int object, String key, String[] value) global native
+function setBoolArray(Int object, String key, Bool[] value) global native
+function setNestedDictionariesArray(Int object, String key, Int[] value) global native
+
+int function GetHandle() global native
+;function RegisterForHttpEvent(var obj) global native
+
+;/  Returns true, if the container has @key: value pair
+/;
+Bool function hasKey(Int object, String key) global native
+
+;/  Returns type of the value associated with the @key.
+    0 - no value, 1 - none, 2 - int, 3 - float, 4 - form, 5 - object, 6 - string
+/;
+;Int function valueType(Int object, String key) global native
